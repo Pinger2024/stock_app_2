@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 
 const fetchStocks = async () => {
-  const res = await fetch(`${import.meta.env.VITE_API_URL}/stocks`);
+  const res = await fetch(`https://stockscope-api.onrender.com/api/stocks`);
   if (!res.ok) {
     throw new Error('Error fetching stocks');
   }
