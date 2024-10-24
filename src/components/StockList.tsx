@@ -23,7 +23,7 @@ const StockList = () => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {stocks?.map((stock: any) => (
+            {stocks?.map((stock) => (
               <tr key={stock.ticker} className="hover:bg-gray-50">
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{stock.ticker}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{stock.sector}</td>
