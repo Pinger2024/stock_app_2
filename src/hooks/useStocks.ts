@@ -1,11 +1,29 @@
-import { useQuery } from 'react-query';
-import axios from 'axios';
+import { useState, useEffect } from 'react';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+export const useStocks = () => {
+  const [data, setData] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-export const useStocks = (filters = {}) => {
-  return useQuery(['stocks', filters], async () => {
-    const { data } = await axios.get(`${API_URL}/stocks/filter`, { params: filters });
-    return data;
-  });
+  useEffect(() => {
+    const fetchStocks = async () => {
+      try {
+        const response = await fetch('https://stockscope.onrender.com/api/stocks');
+        if (!response.ok) {
+          const errorMessage = await response.json();
+          throw new Error(errorMessage.message || 'Failed to fetch stocks');
+        }
+        const stocks = await response.json();
+        setData(stocks);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchStocks();
+  }, []);
+
+  return { data, isLoading, error };
 };

@@ -14,7 +14,7 @@ mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-// Define the route to fetch stocks with combined data from ohlcv_data and indicators
+// Route to fetch stocks with combined data from ohlcv_data and indicators
 app.get('/api/stocks', async (req, res) => {
   try {
     const stocks = await mongoose.connection.db.collection('ohlcv_data').aggregate([
@@ -44,16 +44,17 @@ app.get('/api/stocks', async (req, res) => {
         },
       },
       { $sort: { date: -1 } }, // Sort by date to get the most recent
-      { $limit: 10 } // You can adjust this limit if needed
+      { $limit: 50 } // Change the limit according to how many you want
     ]).toArray();
 
     res.json(stocks);
   } catch (error) {
+    console.error('Error fetching stocks:', error.message);
     res.status(500).json({ message: error.message });
   }
 });
 
-// Define the route to filter stocks (if needed)
+// Route to filter stocks based on query params
 app.get('/api/stocks/filter', async (req, res) => {
   try {
     const { sector, industry, rs_score_min, rs_score_max } = req.query;
@@ -73,8 +74,8 @@ app.get('/api/stocks/filter', async (req, res) => {
           as: 'indicator_data',
         },
       },
-      { $unwind: '$indicator_data' },
-      { $match: query }, // Apply filters
+      { $unwind: '$indicator_data' }, // Ensure indicator data is in each stock
+      { $match: query }, // Apply filters from the request
       {
         $project: {
           _id: 0,
@@ -96,6 +97,7 @@ app.get('/api/stocks/filter', async (req, res) => {
 
     res.json(stocks);
   } catch (error) {
+    console.error('Error filtering stocks:', error.message);
     res.status(500).json({ message: error.message });
   }
 });
