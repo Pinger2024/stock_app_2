@@ -15,21 +15,22 @@ const StockList = () => {
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Symbol</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sector</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Industry</th>
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Change</th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Market Cap</th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">P/E</th>
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Volume</th>
+              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">RS Score</th>
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {stocks?.map((stock) => (
-              <tr key={stock.symbol} className="hover:bg-gray-50">
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{stock.symbol}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{stock.name}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900">${stock.price}</td>
+              <tr key={stock.ticker} className="hover:bg-gray-50">
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{stock.ticker}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{stock.sector}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{stock.industry}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900">${stock.close}</td>
                 <td className={`px-6 py-4 whitespace-nowrap text-sm text-right ${
                   stock.change >= 0 ? 'text-green-600' : 'text-red-600'
                 }`}>
@@ -42,9 +43,8 @@ const StockList = () => {
                     {Math.abs(stock.change)}%
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900">{stock.marketCap}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900">{stock.pe}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900">{stock.volume}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900">{stock.rs_score}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <button className="text-indigo-600 hover:text-indigo-900">
                     <Star className="h-5 w-5" />
